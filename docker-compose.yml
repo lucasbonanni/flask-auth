@@ -8,7 +8,14 @@ services:
       - "80:5000"
     environment:
       - FLASK_DEBUG=1
-# #      - 'RUN=flask run --host=0.0.0.0 --port=5000'
-#     command: flask run --host=127.0.0.1 --port=5000
-#     # Infinite loop, to keep it alive, for debugging
-#     # command: bash -c "while true; do echo 'sleeping...' && sleep 10; done"
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
