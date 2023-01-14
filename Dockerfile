@@ -1,10 +1,15 @@
 FROM python:3.10-alpine
 
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY ./requirements.txt /app/requirements.txt
+ENV FLASK_RUN_HOST=0.0.0.0
+#Server will reload itself on file changes if in dev mode
+ENV FLASK_ENV=development 
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./app /app
+COPY . .
+
+CMD ["flask", "run"]
